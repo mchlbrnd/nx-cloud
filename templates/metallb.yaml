@@ -1,15 +1,15 @@
+{{ $releaseName := .Release.Name }}
 {{- if .Values.metallb.enabled }}
 ---
 apiVersion: metallb.io/v1beta1
 kind: IPAddressPool
 metadata:
-  name: nx-cloud-ip-pool
+  name: {{ $releaseName }}-local-ip-pool
   annotations:
-    "helm.sh/hook": post-install
+    "helm.sh/hook": post-install # todo delete on uninstall etc
     "helm.sh/hook-weight": "-5"
 spec:
-  addresses: {{ .Values.metallb.ipAddressPool.addresses }}
-  autoAssign: {{ .Values.metallb.ipAddressPool.autoAssign }}
+{{ toYaml .Values.metallb.ipAddressPool | indent 2 }}
 
 ---
 apiVersion: metallb.io/v1beta1
@@ -21,5 +21,5 @@ metadata:
     "helm.sh/hook-weight": "-5"
 spec:
   ipAddressPools:
-  - nx-cloud-ip-pool
+  - {{ $releaseName }}-local-ip-pool
 {{- end }}

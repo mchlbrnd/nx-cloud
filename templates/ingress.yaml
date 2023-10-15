@@ -10,13 +10,6 @@ spec:
     - host: {{ index .Values "nx-cloud" "nxCloudAppURL" | replace "https://" "" | replace "http://" "" }}
       http:
         paths:
-          - path: /
-            pathType: Prefix
-            backend:
-              service:
-                name: nx-cloud-frontend-service
-                port:
-                  number: 8080
           - path: /file
             pathType: Prefix
             backend:
@@ -58,7 +51,14 @@ spec:
               service:
                 name: nx-cloud-nrwl-api-service
                 port:
-                  number: 4000                
+                  number: 4000
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: nx-cloud-frontend-service
+                port:
+                  number: 8080
 {{- if .Values.ingress.tls }}
   tls:
 {{ toYaml .Values.ingress.tls | indent 2}}

@@ -6,7 +6,7 @@ metadata:
     "helm.sh/hook-weight": "1"
     kubectl.kubernetes.io/last-applied-configuration: |
       {"apiVersion":"storage.k8s.io/v1","kind":"StorageClass","metadata":{"annotations":{},"labels":{"addonmanager.kubernetes.io/mode":"Reconcile"},"name":"csi-hostpath-sc"},"provisioner":"hostpath.csi.k8s.io","reclaimPolicy":"Delete","volumeBindingMode":"Immediate"}
-    storageclass.kubernetes.io/is-default-class: "true"
+    storageclass.kubernetes.io/is-default-class: "true" # make default driver
   labels:
     addonmanager.kubernetes.io/mode: Reconcile
   name: csi-hostpath-sc

@@ -1,20 +1,33 @@
 mongodb:
-  rootUser: root
-  rootPassword: Password123
+  architecture: replicaset
+  auth:
+    rootUser: root
+    rootPassword: Password123
+  replicaCount: 2
+  replicaSetName: "rs0"
+  replicaSetKey: "/opt/bitnami/mongodb/conf/keyfile"
+  resources:
+    requests:
+      memory: "2Gi"
 
 nx-cloud:
+  imageTag: latest
+  # plain auth
+  auth:
+    adminPassword: Password123
+  # creates secret for plain auth
+  secret:
+    name: nx-cloud-secret
   nxCloudAppURL: https://nx.werockit.nl
-  adminPassword: Password123
 
 ingress:
   tls:
-  - hosts:
-    - nx.werockit.nl
-    secretName: nx-cloud-cert
+    - hosts:
+        - nx.werockit.nl
+      secretName: werockit.nl-cert
 
 metallb:
   enabled: true
-  ipAddressPool:
-    addresses:
+  addresses:
     - 192.168.178.240-192.168.178.240
-    autoAssign: true
+  autoAssign: true

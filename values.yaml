@@ -378,7 +378,7 @@ mongodb:
 
   ## @param nameOverride String to partially override mongodb.fullname template (will maintain the release name)
   ##
-  nameOverride: "nx-cloud-mongodb"
+  nameOverride: ""
   ## @param fullnameOverride String to fully override mongodb.fullname template
   ##
   fullnameOverride: ""
@@ -2662,11 +2662,9 @@ mongodb:
       rules: []
 
 nx-cloud:
-  adminPassword: 'Password123'
-
   global:
     imageRegistry: ''
-    imageTag: 2308.22.7.patch3
+    imageTag: 2308.22.7.patch3 # working in current setup
     imageRepository: 'nxprivatecloud'
 
   naming:
@@ -2847,7 +2845,7 @@ nx-cloud:
       enabled: false
 
   secret:
-    name: 'nx-cloud-secret'
+    name: ''
     nxCloudMongoServerEndpoint: NX_CLOUD_MONGO_SERVER_ENDPOINT
     adminPassword: ADMIN_PASSWORD
     awsS3AccessKeyId: ''
