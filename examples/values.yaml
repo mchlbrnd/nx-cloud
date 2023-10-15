@@ -1,0 +1,20 @@
+mongodb:
+  rootUser: root
+  rootPassword: Password123
+
+nx-cloud:
+  nxCloudAppURL: https://nx.werockit.nl
+  adminPassword: Password123
+
+ingress:
+  tls:
+  - hosts:
+    - nx.werockit.nl
+    secretName: nx-cloud-cert
+
+metallb:
+  enabled: true
+  ipAddressPool:
+    addresses:
+    - 192.168.178.240-192.168.178.240
+    autoAssign: true

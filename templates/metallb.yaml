@@ -1,0 +1,25 @@
+{{- if .Values.metallb.enabled }}
+---
+apiVersion: metallb.io/v1beta1
+kind: IPAddressPool
+metadata:
+  name: nx-cloud-ip-pool
+  annotations:
+    "helm.sh/hook": post-install
+    "helm.sh/hook-weight": "-5"
+spec:
+  addresses: {{ .Values.metallb.ipAddressPool.addresses }}
+  autoAssign: {{ .Values.metallb.ipAddressPool.autoAssign }}
+
+---
+apiVersion: metallb.io/v1beta1
+kind: L2Advertisement
+metadata:
+  name: l2-advertisement
+  annotations:
+    "helm.sh/hook": post-install
+    "helm.sh/hook-weight": "-5"
+spec:
+  ipAddressPools:
+  - nx-cloud-ip-pool
+{{- end }}
