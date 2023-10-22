@@ -18,16 +18,17 @@ nx-cloud:
   # creates secret for plain auth
   secret:
     name: nx-cloud-secret
-  nxCloudAppURL: https://nx.werockit.nl
+  nxCloudAppURL: https://nx.example.com
 
 ingress:
   tls:
     - hosts:
-        - nx.werockit.nl
-      secretName: werockit.nl-cert
+        - nx.example.com
+      secretName: nx.example.com-cert
 
 metallb:
   enabled: true
-  addresses:
-    - 192.168.178.240-192.168.178.240
-  autoAssign: true
+  ipAddressPool:
+    addresses:
+      - 192.168.178.240-192.168.178.240
+    autoAssign: true
