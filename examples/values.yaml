@@ -10,21 +10,64 @@ mongodb:
     requests:
       memory: "2Gi"
 
-nx-cloud:
-  imageTag: latest
-  # plain auth
+github:
   auth:
-    adminPassword: Password123
-  # creates secret for plain auth
-  secret:
-    name: nx-cloud-secret
-  nxCloudAppURL: https://nx.example.com
+    clientId: ""
+    clientSecret: ""
 
-ingress:
-  tls:
-    - hosts:
-        - nx.example.com
-      secretName: nx.example.com-cert
+nx-cloud:
+  global:
+    imageTag: "2025.07.1"
+    mongodbConnectionString:
+      secretName: "nx-cloud-auth"
+      secretKey: "NX_CLOUD_MONGO_SERVER_ENDPOINT"
+    nxCloudAppURL: "http://localhost:8080"
+
+  secret:
+    name: nx-cloud-auth
+
+  ingress:
+    enabled: false
+
+  api:
+    valkey:
+      clientProvider: "redisson"
+      useSentinel: false
+      primaryAddress: "valkey-primary"
+      replicaAddresses: "valkey-headless"
+      port: 6379
+      username: "default"
+      passwordSecret:
+        name: valkey-secrets
+        key: valkey-password
+
+    deployment:
+      envValueFrom:
+        GITHUB_AUTH_CLIENT_ID:
+          secretKeyRef:
+            name: nx-cloud-auth
+            key: GITHUB_AUTH_CLIENT_ID
+        GITHUB_AUTH_CLIENT_SECRET:
+          secretKeyRef:
+            name: nx-cloud-auth
+            key: GITHUB_AUTH_CLIENT_SECRET
+
+  frontend:
+    deployment:
+      envValueFrom:
+        GITHUB_AUTH_CLIENT_ID:
+          secretKeyRef:
+            name: nx-cloud-auth
+            key: GITHUB_AUTH_CLIENT_ID
+        GITHUB_AUTH_CLIENT_SECRET:
+          secretKeyRef:
+            name: nx-cloud-auth
+            key: GITHUB_AUTH_CLIENT_SECRET
+
+#ingress:
+#  tls:
+#    - hosts:
+#      - nx-cloud.werockit.local
 
 metallb:
   enabled: true
